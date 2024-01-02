@@ -1,4 +1,3 @@
-#![feature(proc_macro_quote)]
 extern crate proc_macro;
 use syn::spanned::Spanned;
 use proc_macro2::{Ident, TokenStream as TokenStream2};
