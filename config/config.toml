@@ -1,0 +1,25 @@
+svr_id=2
+
+[log]
+dir="log" # relative to exe dir or a absolute path
+file_name="svr.log"
+to_stdout=true
+to_file=true
+with_thread_id=true
+with_thread_name=true
+level="info"
+with_line_number=true
+
+[cs]
+port=8899
+
+[[db]]
+name="global"
+type="Mysql"
+url="mysql://root:root@43.143.134.104/svr"
+max_conn=10
+
+[[db]]
+name="global"
+type="Redis"
+url="redis://:root@43.143.134.104:6379/"

@@ -1,0 +1,15 @@
+[package]
+name = "svr_proto"
+version = "0.1.0"
+edition = "2021"
+build="src/build.rs"
+
+
+[build-dependencies]
+svr_macro={path = "../svr_macro"}
+prost = { version = "0.12.3", features = [] }
+prost-build = { version = "0.12.3", features = [] }
+prost-types = { version = "0.12.3" }
+tempfile = "3.8.1"
+serde = "1.0.193"
+dashmap = "5.5.3"

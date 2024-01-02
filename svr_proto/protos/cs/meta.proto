@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package meta;
+
+import "google/protobuf/any.proto";
+
+message HelloReq {
+  int32 addr = 1;
+  string name = 2;
+}
+message HelloResp {
+  string echo = 1;
+  int64 sequence = 2;
+}
+
+message CsMessage {
+  uint32 msg_id = 1;
+  uint32 seq = 2;
+  map<string,string> ext = 3;
+  bytes body = 4;
+}

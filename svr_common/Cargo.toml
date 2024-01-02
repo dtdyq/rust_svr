@@ -1,0 +1,22 @@
+[package]
+name = "svr_common"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+cfg=["config/default"]
+trace=["tracing","tracing-subscriber","tracing-appender"]
+lock=[]
+default=["cfg","trace"]
+
+[dependencies]
+config = "0.13.4"
+serde = { version = "1.0.193" }
+serde_json = "1.0.108"
+dashmap = "5.5.3"
+lazy_static = "1.4.0"
+chrono = "0.4.31"
+tracing = { version = "0.1.40",optional = true }
+tracing-subscriber = { version = "0.3.18",optional = true }
+tracing-appender = { version = "0.2.3",optional = true }
