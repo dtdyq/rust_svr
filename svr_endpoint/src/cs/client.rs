@@ -10,7 +10,6 @@ use futures_util::{SinkExt, StreamExt};
 use prost::Message;
 use tokio::net::tcp::WriteHalf;
 use tokio::net::TcpStream;
-use tokio::net::windows::named_pipe::PipeEnd::Client;
 use tokio::sync::{Mutex, oneshot};
 use tokio::sync::broadcast::error::RecvError;
 use tokio::sync::oneshot::{channel, Sender};
