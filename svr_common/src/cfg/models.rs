@@ -12,7 +12,9 @@ pub struct SvrCfg {
 
 #[derive(Deserialize,Debug)]
 pub struct CsEndpointConfig {
-    pub port:i32
+    pub ip:String,
+    pub port:i32,
+    pub broadcast_chan_size:usize,
 }
 #[derive(Deserialize,Debug)]
 #[serde(tag = "type")] // 使用 "type" 字段来区分不同的枚举变体

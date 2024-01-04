@@ -1,5 +1,3 @@
-#![feature(future_join)]
-
 use std::env::current_exe;
 use std::fmt::Error;
 use std::path::PathBuf;

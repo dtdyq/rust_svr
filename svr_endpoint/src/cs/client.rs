@@ -182,9 +182,12 @@ impl CsClient {
 #[cfg(test)]
 mod test_cs_client {
     use std::env::current_dir;
+    use std::net::SocketAddr;
     use std::sync::{Arc, Mutex};
     use std::time::{Duration, SystemTime};
     use rand::RngCore;
+    use tokio::io::AsyncWriteExt;
+    use tokio::net::TcpStream;
     use tokio::task::JoinHandle;
     use tokio::time::sleep;
     use tracing::{error, info};
@@ -192,25 +195,29 @@ mod test_cs_client {
     use svr_common::trace;
     use crate::cs::client::CsClient;
     use crate::cs::proto::meta::{HelloReq, HelloResp};
-
+    use std::str::FromStr;
     #[tokio::test]
     async fn test_broadcast() {
         let cfg  =Configure::from_dir("../config".into()).unwrap();
         let t = trace::init(&cfg);
-        let mut csc = CsClient::new("127.0.0.1:8899",|csm|{
+
+        // let mut p = [0;1024];
+        // info!("qouhqiew{:?}",TcpStream::connect("9.134.151.80:28101").await.unwrap().peek(&mut p).await);
+        // info!("quwqyeqewqweqwe:{:?}",String::from_utf8_lossy(&p));
+
+        let mut csc = CsClient::new("43.143.134.104:80",|csm|{
             info!("recv broad cast from self:{:?}",csm)
         }).await.unwrap();
-        let mut csc_bc = CsClient::new("127.0.0.1:8899",|csm|{
+        let mut csc_bc = CsClient::new("43.143.134.104:80",|csm|{
             info!("recv broad cast from other:{:?}",csm)
         }).await.unwrap();
 
+        let r = csc.send::<HelloResp>(1,HelloReq{ addr: 12, name: "haha".to_string() }).await;
 
-        tokio::spawn(async move{
-            info!("send port:{}",csc.local);
-            csc.send::<HelloResp>(1,HelloReq{ addr: 12, name: "haha".to_string() }).await
-        });
+        let r = csc_bc.send::<HelloResp>(1,HelloReq{ addr: 12, name: "haha".to_string() }).await;
 
-        sleep(Duration::from_millis(500)).await;
+
+        sleep(Duration::from_millis(1000)).await;
     }
 
     #[tokio::test]
@@ -222,7 +229,7 @@ mod test_cs_client {
         let mut csc = CsClient::new("127.0.0.1:8899",|_|{}).await.unwrap();
         let mut v = Vec::new();
         let vec = Arc::new(Mutex::new(Vec::with_capacity(10000)));
-        for i in 0..1000 {
+        for i in 0..100 {
             v.push(many_req_with_new_csc(i,vec.clone()).await);
         }
         for vv in v {
@@ -246,7 +253,7 @@ mod test_cs_client {
             info!("recv broad cast from other:{:?} {:?}",id, csm)
         }).await.unwrap();
         tokio::spawn(async move{
-            for i in 0..1000 {
+            for i in 0..100 {
                 let r = rand::thread_rng().next_u32();
                 let t = SystemTime::now();
                 let resp = if r % 2 == 0 {

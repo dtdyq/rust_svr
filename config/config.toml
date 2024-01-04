@@ -11,7 +11,9 @@ level="info"
 with_line_number=true
 
 [cs]
+ip="0.0.0.0"
 port=8899
+broadcast_chan_size=4096
 
 [[db]]
 name="global"
